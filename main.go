@@ -14,7 +14,6 @@ const targetURL = "https://youtu.be/yWJavgEeHGs?si=B3bRWVKzWBmC_d6l"
 func redirectAndLogHandler(w http.ResponseWriter, r *http.Request) {
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 
-	// Caddy passes the Cloudflare headers right through
 	ip := r.Header.Get("CF-Connecting-IP")
 	if ip == "" {
 		ip = r.Header.Get("X-Forwarded-For")
@@ -23,12 +22,17 @@ func redirectAndLogHandler(w http.ResponseWriter, r *http.Request) {
 		ip = r.RemoteAddr
 	}
 
+	country := r.Header.Get("CF-IPCountry")
+	if country == "" {
+		country = "Unknown"
+	}
+
 	userAgent := r.UserAgent()
 	method := r.Method
 	path := r.URL.Path
 
-	logLine := fmt.Sprintf("[%s] IP: %s | Method: %s | Path: %s | User-Agent: %s\n",
-		currentTime, ip, method, path, userAgent)
+	logLine := fmt.Sprintf("[%s] IP: %s | Country: %s | Method: %s | Path: %s | User-Agent: %s\n",
+		currentTime, ip, country, method, path, userAgent)
 
 	fmt.Print(logLine)
 
