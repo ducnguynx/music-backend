@@ -9,10 +9,22 @@ import (
 )
 
 const port = ":8080"
-const targetURL = "https://youtu.be/yWJavgEeHGs?si=B3bRWVKzWBmC_d6l"
+const targetURLnhacdanchoi = "https://youtu.be/yWJavgEeHGs?si=B3bRWVKzWBmC_d6l"
+const targetURLanchaynghenhacbay = "https://youtu.be/Jh0_eRoeEy4?si=cENgg9PCX12O6cYv"
 
 func redirectAndLogHandler(w http.ResponseWriter, r *http.Request) {
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
+	var targetURL string
+
+	switch r.URL.Path {
+	case "/nhacdanchoi":
+		targetURL = targetURLnhacdanchoi
+	case "/anchaynghenhacbay":
+		targetURL = targetURLanchaynghenhacbay
+	default:
+		http.NotFound(w, r)
+		return
+	}
 
 	ip := r.Header.Get("CF-Connecting-IP")
 	if ip == "" {
@@ -50,7 +62,7 @@ func redirectAndLogHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", redirectAndLogHandler)
 
-	fmt.Printf("Server is listening on %s and redirecting to %s\n", port, targetURL)
+	fmt.Printf("Server is listening on %s and redirecting based on request path\n", port)
 
 	if err := http.ListenAndServe(port, nil); err != nil {
 		log.Fatalf("Server failed to start: %v", err)
