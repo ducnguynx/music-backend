@@ -9,20 +9,14 @@ import (
 )
 
 const port = ":8080"
-const targetURLnhacdanchoi = "https://youtu.be/yWJavgEeHGs?si=B3bRWVKzWBmC_d6l"
-const targetURLanchaynghenhacbay = "https://youtu.be/Jh0_eRoeEy4?si=cENgg9PCX12O6cYv"
-const targetURLvietmixthitoeic = "https://youtu.be/yj-8z7P06gs"
+const targetURLvietmixthitoeic = "https://ducnguynx.codes/music"
 
 func redirectAndLogHandler(w http.ResponseWriter, r *http.Request) {
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 	var targetURL string
 
 	switch r.URL.Path {
-	case "/nhacdanchoi":
-		targetURL = targetURLnhacdanchoi
-	case "/anchaynghenhacbay":
-		targetURL = targetURLanchaynghenhacbay
-	case "/vietmixthitoeic":
+	case "/":
 		targetURL = targetURLvietmixthitoeic
 
 	default:
