@@ -1,0 +1,9 @@
+.git
+.agents
+.codex
+.aws
+data
+*.db
+*.db-shm
+*.db-wal
+*.log

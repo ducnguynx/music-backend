@@ -1,21 +1,14 @@
-# Stage 1: Build the Go binary
-FROM golang:1.22-alpine AS builder
+FROM golang:1.25-alpine AS builder
 WORKDIR /app
-COPY main.go .
-RUN go build -o qr-logger main.go
+COPY go.mod go.sum ./
+RUN go mod download
+COPY *.go ./
+RUN CGO_ENABLED=0 go build -trimpath -o qr-logger .
 
-# Stage 2: Create the minimal production image
-FROM alpine:latest
+FROM alpine:3.23
 WORKDIR /app
-
-# Create the data directory for the log file
-RUN mkdir -p /app/data
-
-# Copy the binary from the builder stage
+RUN addgroup -S app && adduser -S -G app app && mkdir -p /app/data && chown app:app /app/data
 COPY --from=builder /app/qr-logger .
-
-# Expose the port
+USER app
 EXPOSE 8080
-
-# Run the binary
 CMD ["./qr-logger"]

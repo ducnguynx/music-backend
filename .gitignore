@@ -1,0 +1,6 @@
+/data/
+/qr-logger
+*.db
+*.db-shm
+*.db-wal
+*.log
