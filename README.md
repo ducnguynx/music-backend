@@ -11,7 +11,7 @@ DATABASE_PATH=./data/music.db \
 go run .
 ```
 
-The server listens on port 8080. `DATABASE_PATH` defaults to `/app/data/music.db`; the access log is written alongside the database. Persist `/app/data` when running the Docker image. The image runs as an unprivileged `app` user; mounted directories must be writable by that user. Run one application instance per database file.
+The server listens on port 8080. `DATABASE_PATH` defaults to `/app/data/music.db`; the access log is written alongside the database. Persist `/app/data` when running the Docker image. The image uses the default container root user, preserving the original deployment's ownership setup. With the default rootless Podman user mapping, container root maps to the host user running Podman; mounted directories must be writable by that host user. Run one application instance per database file.
 
 ## Frontend contract
 
